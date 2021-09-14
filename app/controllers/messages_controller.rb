@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: %i[ show edit update destroy ]
+  before_action :set_room, only: %i[ new create ]
   before_action :authenticate_user!
 
   # GET /messages or /messages.json
@@ -15,8 +16,7 @@ class MessagesController < ApplicationController
 
   # GET /messages/new
   def new
-    # @message = Message.new
-    @message = current_user.messages.build
+    @message = @room.messages.new
   end
 
   # GET /messages/1/edit
@@ -25,13 +25,14 @@ class MessagesController < ApplicationController
 
   # POST /messages or /messages.json
   def create
-    # @message = Message.new(message_params)
-    @message = current_user.messages.build(message_params)
+    @message = @room.messages.build(message_params)
+    @message.user = current_user
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to room_messages_path, notice: "Message was successfully created." }
-        format.json { render :show, status: :created, location: @message }
+        format.turbo_stream
+        # format.html { redirect_to @room }
+        # format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @message.errors, status: :unprocessable_entity }
@@ -66,7 +67,10 @@ class MessagesController < ApplicationController
     def set_message
       @message = Message.find(params[:id])
     end
-
+    
+    def set_room
+      @room = Room.find(params[:room_id])
+    end
     # Only allow a list of trusted parameters through.
     def message_params
       params.require(:message).permit(:content)
