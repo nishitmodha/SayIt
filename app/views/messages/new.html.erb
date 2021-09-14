@@ -5,7 +5,7 @@
         data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }) do |form| %>
     <div class="field">
       <%= form.text_field :content %>
-      <%= form.submit "Send" %>
+      <%= form.submit "Send", data: {disable_with: false} %>
     </div>
   <% end %>
 <% end %>

@@ -10,7 +10,7 @@ import "channels"
 import 'bootstrap/dist/js/bootstrap'
 import 'bootstrap/dist/css/bootstrap'
 import '@hotwired/turbo-rails'
-import 'controllers'
+import '../controllers'
 
 Rails.start()
 Turbolinks.start()
