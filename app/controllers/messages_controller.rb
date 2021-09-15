@@ -9,11 +9,14 @@ class MessagesController < ApplicationController
   def create
     @message = @room.messages.build(message_params)
     @message.user = current_user
-    @message.save!
 
     respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to @room }
+      if @message.save
+        format.turbo_stream
+        format.html { redirect_to @room }
+      else
+        format.html { redirect_to @room, notice: "YO IT CAN'T BE BLANK DUMBASS"}
+      end
     end
   end
 

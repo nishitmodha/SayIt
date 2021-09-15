@@ -1,27 +1,23 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Rooms</h1>
+  <% @rooms.each do|room| %>
+<div>
+    <%= room.name %>
+  <%= link_to room do %>
+  <i class="bi bi-door-open"></i>
+<% end %>
+<%= link_to edit_room_path(room) do %>
+  <i class="bi bi-pencil-square"></i>
+<% end %>
+<%= link_to room, method: :delete, data: { confirm: 'Are you sure?' } do %>
+  <i class="bi bi-x-lg"></i>
+<% end %>
+<hr />
+</div>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div>
+  <%= link_to 'New Room', new_room_path %>
+</div>
 
-  <tbody>
-    <% @rooms.each do |room| %>
-      <tr>
-        <td><%= room.name %></td>
-        <td><%= link_to 'Show', room %></td>
-        <td><%= link_to 'Edit', edit_room_path(room) %></td>
-        <td><%= link_to 'Destroy', room, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Room', new_room_path %>

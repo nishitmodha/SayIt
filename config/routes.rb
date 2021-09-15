@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root 'rooms#index'
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
   resources :rooms do
     resources :messages
   end
